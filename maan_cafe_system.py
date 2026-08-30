@@ -1,3 +1,5 @@
+import time
+
 menu = {
 
     "drinks": {
@@ -74,6 +76,13 @@ def check_order(person_choose):
     return False
 
 
+def add_quantity():
+
+    quantity = int(input("How many do you want? "))
+
+    return quantity
+
+
 def calculate_price(person_choose):
 
     for category_items in menu.values():
@@ -89,7 +98,9 @@ def take_order():
 
         person_choose = input("\nChoose your order: ").lower().strip()
         if check_order(person_choose):
-            cart.append(person_choose)
+            quantity = add_quantity()
+            for i in range(quantity):
+                cart.append(person_choose)
 
             print(f"{person_choose} added to cart!")
 
@@ -113,6 +124,31 @@ def show_bill(cart):
         total += price
         print(f"{item: <15} | {price} SAR")
     print(f"\nTOTAL = {total} SAR")
+    return total
+
+
+def payment(total):
+
+    payment_method = input("how would you like to pay: card/cash? ").lower()
+
+    if payment_method == "card":
+        print("Please wait ...")
+        time.sleep(5)
+        print("Payment successful!")
+
+    elif payment_method == "cash":
+
+        money = float(input("Enter cash amount: "))
+
+        while money < total:
+            print("Sorry, not enough money!")
+            money = float(input("Enter cash amount: "))
+
+        if money == total:
+            print("Payment successful!")
+        elif money > total:
+            change = money - total
+            print(f"Done please take your change{change} SAR")
 
 
 def start_cafe():
@@ -120,8 +156,13 @@ def start_cafe():
     show_menu()
 
     cart = take_order()
+    if not cart:
+        print("Thank you")
+        return
 
-    show_bill(cart)
+    total = show_bill(cart)
+
+    payment(total)
 
 
 start_cafe()
