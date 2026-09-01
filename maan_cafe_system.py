@@ -92,21 +92,25 @@ def calculate_price(person_choose):
 
 def take_order():
 
-    cart = []
+    cart = {}
 
     while True:
 
         person_choose = input("\nChoose your order: ").lower().strip()
         if check_order(person_choose):
-            quantity = add_quantity()
-            for i in range(quantity):
-                cart.append(person_choose)
+
+            if person_choose in cart:
+                quantity = add_quantity()
+                cart[person_choose] += quantity
+            else:
+                quantity = add_quantity()
+                cart[person_choose] = quantity
 
             print(f"{person_choose} added to cart!")
 
         else:
-
             print("Sorry, we do not have this item!")
+
         more = input("Anything else? (yes/no): ").lower()
         if more == "no":
             break
@@ -119,10 +123,14 @@ def show_bill(cart):
 
     print("\n========= YOUR BILL =========")
 
-    for item in cart:
-        price = calculate_price(item)
-        total += price
-        print(f"{item: <15} | {price} SAR")
+    for item, quantity in cart.items():
+
+            price = calculate_price(item)
+            total += price * quantity
+            item_total = price * quantity
+
+            print(f"{item} x{quantity} | {item_total} SAR")
+
     print(f"\nTOTAL = {total} SAR")
     return total
 
