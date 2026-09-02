@@ -136,27 +136,41 @@ def show_bill(cart):
 
 
 def payment(total):
+    while True:
 
-    payment_method = input("how would you like to pay: card/cash? ").lower()
+        payment_method = input("how would you like to pay: card/cash? ").lower().strip()
 
-    if payment_method == "card":
-        print("Please wait ...")
-        time.sleep(5)
-        print("Payment successful!")
-
-    elif payment_method == "cash":
-
-        money = float(input("Enter cash amount: "))
-
-        while money < total:
-            print("Sorry, not enough money!")
-            money = float(input("Enter cash amount: "))
-
-        if money == total:
+        if payment_method == "card":
+            print("Please wait ...")
+            time.sleep(5)
             print("Payment successful!")
-        elif money > total:
-            change = money - total
-            print(f"Done please take your change{change} SAR")
+            break
+
+        elif payment_method == "cash":
+            while True:
+                try:
+                    money = float(input("Enter cash amount: "))
+                    break
+                except ValueError:
+                    print("Please enter a number!")
+
+            while money < total:
+                print("Sorry, not enough money!")
+                try:
+                    money = float(input("Enter cash amount: "))
+                except ValueError:
+                    print("Please enter a number!")
+
+            if money == total:
+                print("Payment successful!")
+                break
+            elif money > total:
+                change = money - total
+                print(f"Done please take your change{change} SAR")
+                break
+
+        else:
+            print("Sorry, try again!")
 
 
 def start_cafe():
