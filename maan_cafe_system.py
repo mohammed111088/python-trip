@@ -78,7 +78,12 @@ def check_order(person_choose):
 
 def add_quantity():
 
-    quantity = int(input("How many do you want? "))
+    while True:
+        try:
+            quantity = int(input("How many do you want? "))
+            break
+        except ValueError:
+            print("Please enter a number!")
 
     return quantity
 
@@ -93,23 +98,25 @@ def calculate_price(person_choose):
 def take_order():
 
     cart = {}
-
     while True:
+        while True:
+            person_choose = input("\nChoose your order: ").lower().strip()
 
-        person_choose = input("\nChoose your order: ").lower().strip()
-        if check_order(person_choose):
+            if check_order(person_choose):
 
-            if person_choose in cart:
-                quantity = add_quantity()
-                cart[person_choose] += quantity
+                if person_choose in cart:
+                    quantity = add_quantity()
+                    cart[person_choose] += quantity
+
+                else:
+                    quantity = add_quantity()
+                    cart[person_choose] = quantity
+
+                print(f"{person_choose} added to cart!")
+                break
+
             else:
-                quantity = add_quantity()
-                cart[person_choose] = quantity
-
-            print(f"{person_choose} added to cart!")
-
-        else:
-            print("Sorry, we do not have this item!")
+                print("Sorry, we do not have this item!")
 
         more = input("Anything else? (yes/no): ").lower()
         if more == "no":
