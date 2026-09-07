@@ -81,7 +81,11 @@ def add_quantity():
     while True:
         try:
             quantity = int(input("How many do you want? "))
-            break
+
+            if quantity <= 0:
+                print("Please enter a positive number!")
+            else:
+                break
         except ValueError:
             print("Please enter a number!")
 
@@ -118,10 +122,15 @@ def take_order():
             else:
                 print("Sorry, we do not have this item!")
 
-        more = input("Anything else? (yes/no): ").lower()
-        if more == "no":
-            break
-    return cart
+        while True:
+            more = input("Anything else? (yes/no): ").lower()
+
+            if more == "yes":
+                break
+            elif more == "no":
+                return cart
+            else:
+                print("Please enter yes or no!")
 
 
 def show_bill(cart):
