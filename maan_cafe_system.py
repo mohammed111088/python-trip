@@ -4,14 +4,14 @@ menu = {
 
     "drinks": {
 
-        "coffee": {"price": 12},
-        "cappuccino": {"price": 18},
-        "latte": {"price": 17},
+        "coffee": {"price": 12, "temperature": True},
+        "cappuccino": {"price": 18, "temperature": True},
+        "latte": {"price": 17, "temperature": True},
         "espresso": {"price": 10},
-        "mocha": {"price": 19},
-        "americano": {"price": 15},
-        "tea": {"price": 8},
-        "green tea": {"price": 9},
+        "mocha": {"price": 19, "temperature": True},
+        "americano": {"price": 15, "temperature": True},
+        "tea": {"price": 8, "temperature": True},
+        "green tea": {"price": 9, "temperature": True},
         "hot chocolate": {"price": 16},
         "water": {"price": 3},
         "orange juice": {"price": 14},
@@ -92,6 +92,17 @@ def add_quantity():
     return quantity
 
 
+def add_temperature():
+
+    while True:
+        temperature = input("Hot or Cold? ").lower().strip()
+
+        if temperature == "hot" or temperature == "cold":
+            return temperature
+        else:
+            print("Please enter Hot or Cold!")
+
+
 def calculate_price(person_choose):
 
     for category_items in menu.values():
@@ -108,13 +119,26 @@ def take_order():
 
             if check_order(person_choose):
 
-                if person_choose in cart:
-                    quantity = add_quantity()
-                    cart[person_choose] += quantity
+                temperature = None
+
+                for category_items in menu.values():
+                    if person_choose in category_items:
+                        temperature = category_items[person_choose].get("temperature", False)
+                cart_key = person_choose
+
+                if temperature:
+                    temperature = add_temperature()
+                    cart_key = person_choose + " " + temperature
+
+                if cart_key in cart:
+                    quantity = add_quantity()ؤخببثث
+                    cart[cart_key]["quantity"] += quantity
 
                 else:
                     quantity = add_quantity()
-                    cart[person_choose] = quantity
+                    cart[cart_key] = {"quantity": quantity,
+                                        "temperature": temperature
+                                      }
 
                 print(f"{person_choose} added to cart!")
                 break
