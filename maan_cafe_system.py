@@ -131,7 +131,7 @@ def take_order():
                     cart_key = person_choose + " " + temperature
 
                 if cart_key in cart:
-                    quantity = add_quantity()ؤخببثث
+                    quantity = add_quantity()
                     cart[cart_key]["quantity"] += quantity
 
                 else:
