@@ -163,13 +163,18 @@ def show_bill(cart):
 
     print("\n========= YOUR BILL =========")
 
-    for item, quantity in cart.items():
+    for item, item_info in cart.items():
 
-            price = calculate_price(item)
-            total += price * quantity
-            item_total = price * quantity
+        quantity = item_info["quantity"]
+        item_name = item
+        if item_info["temperature"]:
+            item_name = item.replace(" " + item_info["temperature"], "")
 
-            print(f"{item} x{quantity} | {item_total} SAR")
+        price = calculate_price(item_name)
+        total += price * quantity
+        item_total = price * quantity
+
+        print(f"{item} x{quantity} | {item_total} SAR")
 
     print(f"\nTOTAL = {total} SAR")
     return total
